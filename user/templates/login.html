@@ -1,0 +1,7 @@
+{% extends "base/base.html" %} {% block content %}
+
+<form method="POST" class="d-flex flex-column p-2">
+  {% csrf_token %} {{login_form}}
+  <button class="mt-2" type="submit">Login</button>
+</form>
+{% endblock %}

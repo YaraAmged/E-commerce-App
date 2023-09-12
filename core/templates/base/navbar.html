@@ -1,0 +1,57 @@
+    <header class="site-navbar" role="banner">
+        <div class="site-navbar-top">
+            <div class="container">
+                <div class="row align-items-center ">
+
+                    <div class="col-12 col-md-4 order-2 order-md-1 col-sm-6">
+                        <form action="/" class="site-block-top-search" >
+                            <span class="icon icon-search2"></span>
+                            <input type="text" class="form-control text-center p-0" placeholder="Search" name="searchKeyword">
+                        </form>
+                    </div>
+
+                    <div class="col-12 mb-3 mb-md-0 col-md-4 order-1 order-md-2 text-center">
+                        <div class="site-logo">
+                            <a href="/" class="js-logo-clone">E-commerce</a>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-4 order-3 order-md-3 text-right col-sm-6 text-center mt-3">
+                        <div class="site-top-icons">
+                            <ul>
+                                {%if user and user.is_authenticated%}
+                                <li><p>Hello: {{user.fullName}} , </p></li>
+                                <li><a href="{% url "user:logout" %}">Logout</a></li>
+                                <li>
+                                    <a href="{% url "user:cart" %}" class="site-cart">
+                                        <p>,Cart</p>
+                                        <span class="count">
+                                            {{cartCount}}
+                                        </span>
+                                    </a>
+                                </li>
+                                {%else%}
+                                <li><a href="{% url "user:registration" %}">Register</a></li>
+                                <li><a href="{% url "user:login" %}">Login</a></li>
+                                {%endif%}
+                                <li class="d-inline-block d-md-none ml-md-0"><a href="#"
+                                        class="site-menu-toggle js-menu-toggle"><span class="icon-menu"></span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <nav class="site-navigation text-right text-md-center" role="navigation">
+            <div class="container">
+                <ul class="site-menu js-clone-nav d-none d-md-block">
+                
+                    <li><a href="{% url "product:list" %}">Home</a></li>
+                    {%if user and user.is_authenticated%}
+                    <li><a href="{% url "order:list" %}">Orders</a></li>
+                    {%endif%}
+                </ul>
+            </div>
+        </nav>
+    </header>

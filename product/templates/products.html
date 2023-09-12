@@ -1,0 +1,104 @@
+{% extends "base/base.html" %} {% block content %}
+<div class="card">
+  <div class="card-header">
+    <h6>Filters</h6>
+  </div>
+  <form id="products-filters" class="p-5">
+    <h6 >Price Range</h6>
+    <div class="d-grid gap-3">
+      <div>
+        <label for="min_price">Min Price</label>
+        <input type="number" id="min_price" name="min_price" />
+      </div>
+      <div>
+        <label for="max_price">Max Price</label>
+        <input type="number" id="max_price" name="max_price" />
+      </div>
+      <button type="submit">Apply</button>
+
+      
+    </div>
+    <hr />
+    <h6>Categories</h6>
+    <div class="d-flex">
+      <div class="form-check form-check-inline">
+        <input
+          type="radio"
+          class="form-check-input"
+          id="all"
+          name="category"
+          value=""
+          checked
+        />
+        <label for="all" class="form-check-label">All</label>
+      </div>
+
+      {% for category in categories %}
+      <div class="form-check form-check-inline">
+        <input
+          type="radio"
+          id="{{category.name}}"
+          name="category"
+          value="{{category.name}}"
+          class="form-check-input"
+        />
+        <label class="form-check-label" for="{{category.name}}"
+          >{{category.name}}</label
+        >
+      </div>
+      {% endfor %}
+    </div>
+  </form>
+</div>
+
+  <div class="row m-2">
+    {% for product in products %}
+    <div class="col-12 col-sm-4 p-0">
+      <div class="card">
+        <div class="card-header">
+          <h3>{{ product.nameEn }}</h3>
+        </div>
+        <div class="card-content p-2">
+          <h3>Price: {{ product.unitPrice }} EGP</h3>
+        </div>
+        {%if product.cartItem%}
+        <div class="p-2 d-flex gap-2 justify-content-center align-items-center">
+          {%if product.cartItem.quantity == 1%}
+          <a
+            class="btn btn-danger btn-sm p-1"
+            href="{% url 'user:removeFromCart' product.cartItem.id %}?source=product:list"
+            >Remove From Cart</a
+          >
+          {%else%}
+          <a
+            class="btn btn-danger btn-sm p-1"
+            href="{% url 'user:decreaseQuantity' product.cartItem.id %}?source=product:list"
+            >Decrease Quantity</a
+          >
+          {%endif%}
+          <p class="px-2 pt-3">{{product.cartItem.quantity}}</p>
+          <a
+            class="btn btn-primary btn-sm p-1"
+            href="{% url 'user:increaseQuantity' product.cartItem.id %}?source=product:list
+            "
+            >Increase Quantity</a
+          >
+        </div>
+        {%elif product.stockQuantity > 0%}
+        <div class="p-2 d-flex justify-content-end">
+          <a
+            class="btn btn-primary"
+            href="{% url 'user:addToCart' product.id %}?source=product:list"
+            >Add To Cart</a
+          >
+        </div>
+        {%else%}
+        <div class="p-2 d-flex justify-content-end">
+          <p>Out of stock</p>
+        </div>
+        {%endif%}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+{% endblock %}

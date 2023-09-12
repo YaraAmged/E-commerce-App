@@ -1,0 +1,32 @@
+{% extends "base/base.html" %} {% block content %}
+<form>
+  <h1 class="m-3">Orders</h1>
+  <select class="m-3 " name="status" value="Pending">
+    <option value="" >All</option>
+    <option value="Pending" >Pending</option>
+    <option value="Approved">Approved</option>
+    <option value="Declined">Declined</option>
+    <option value="Shipped" >Shipped</option>
+    <option value="Delivered">Delivered</option>
+  </select>
+  <button type="submit">Apply</button>
+</form>
+<div class="col">
+  <div class="row">
+    {% for order in orders %}
+    <div class="col-12 col-sm-4">
+      <div class="card">
+        <div class="card-header">
+          <h3>Order number: {{ order.id }}</h3>
+          <h3>Status: {{ order.status }}</h3>
+        </div>
+        <div class="card-actions p-2">
+          <a href="{% url 'order:details' order.id %}"> View</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{%empty%}
+<h1>No Orders Yet</h1>
+{% endfor %} {% endblock %}
